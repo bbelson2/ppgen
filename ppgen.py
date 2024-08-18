@@ -44,7 +44,7 @@ def gen_project(templates, in_root, out_root, dict, verbose):
       dict, template[3], verbose)
     file_count = file_count + 1
   if verbose > 0:
-    print(f'ppgen generated {file_count} files to {out_root}')
+    print(f'ppgen v{pp_version_info} generated {file_count} files to {out_root}')
 
 # Library list
 library_choices = ["pwm", "adc", "uart"]
@@ -87,16 +87,21 @@ def main(proj_name, libs, debug_type, verbose):
   picoprobe_templates = [
     ['picoprobe_launch.json', '.vscode', 'launch.json', False]
   ]
+  picoprobe2_templates = [
+    ['picoprobe2_launch.json', '.vscode', 'launch.json', False]
+  ]
   # Append debug material to templates
   if debug_type == 'picoprobe':
     for i in picoprobe_templates: 
+      templates.append(i)
+  if debug_type == 'picoprobe2':
+    for i in picoprobe2_templates: 
       templates.append(i)
   # Generate everything
   gen_project(templates, tpldir, pwdir / proj_name, dict, verbose)
 
 def read_args():
   # Process cmd line switches
-  pp_version_info = "1.1"
   ppgen_desc = f"Pico Project Generator. Version {pp_version_info}." 
   parser = argparse.ArgumentParser(description=ppgen_desc)
   parser.add_argument("project",help="name of project and of new folder containing project")
@@ -104,9 +109,10 @@ def read_args():
   parser.add_argument("-l", "--library", help="include specified support libraries", 
     choices=library_choices, action="append", nargs='+')
   parser.add_argument("-d", "--debugger", help="add debugger support", 
-    choices=["picoprobe"])
+    choices=["picoprobe", "picoprobe2"])
   args = parser.parse_args()
   return args
 
+pp_version_info = "1.2"
 args = read_args()
 main(args.project, args.library, args.debugger, args.verbose)
