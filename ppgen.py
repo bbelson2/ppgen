@@ -1,8 +1,9 @@
 # File:      ppgen.py
 # Author:    Bruce Belson
 # Copyright: See LICENSE in this repository
-# Version:   1.1
-# Date:      26-Jul-2021
+# Version:   1.2
+# Released:  26-Jul-2021
+# Updated:   18-Aug-2024
 
 # Notes:
 # templates are stored in [exedir]/templates
